@@ -1,0 +1,24 @@
+name: test
+
+on: [push]
+
+jobs:
+  build & test:
+    
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: build container
+        run: docker build -t s3s3s .
+      - name: import test lib
+        run: docker run -it --rm -v `pwd`:/usr/src/app \
+        -w /usr/src/app \
+        python:3.8-alpine \
+        sh -c "apk add build-base libffi-dev && apk add openssl-dev && pip install -t test_libs pytest moto"
+      - name: test container
+        run: docker run -it --rm -v `pwd`/tests:/usr/src/app/tests \
+        -v `pwd`/test_libs:/usr/src/test_libs \
+        -e PYTHONPATH=/usr/src/test_libs \
+        s3s3s python -m pytest -v -p no:warnings
+      
