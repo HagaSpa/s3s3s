@@ -13,5 +13,6 @@ jobs:
     needs: build_test
 
     steps:
+      - uses: actions/checkout@v1
       - name: Create a Release
         uses: actions/create-release@v1
