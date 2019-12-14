@@ -1,4 +1,6 @@
 # s3s3s
+![Actions Status](https://github.com/HagaSpa/s3s3s/workflows/test/badge.svg)
+
 S3 to S3 Sender
 
 ## s3 path
