@@ -4,9 +4,7 @@ on: [push, pull_request]
 
 jobs:
   build_test:
-    
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v1
       - name: build container
@@ -21,3 +19,12 @@ jobs:
           -v `pwd`/test_libs:/usr/src/test_libs
           -e PYTHONPATH=/usr/src/test_libs
           s3s3s python -m pytest -v -p no:warnings
+  
+  release:
+    runs-on: ubuntu-latest
+    needs: build_test
+    steps:
+      - uses: actions/checkout@v1
+      - name: Create a Release
+        uses: actions/create-release@v1
+        if: contains(github.ref, 'tags/v')
