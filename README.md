@@ -11,7 +11,7 @@ S3 to S3 Sender
 ## Build
 
 ```
-$ docker build -t <Image ID>:<tag> .
+$ make build
 ```
 
 
