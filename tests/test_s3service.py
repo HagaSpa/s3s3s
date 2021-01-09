@@ -18,10 +18,13 @@ class S3ServiceTestCase(unittest.TestCase):
         self._table = "mock_table"
         self._date = "20191121"
         self._prefix = f'{self._table}/{self._date}/'
+        self._location = "asia-northeast-1"
 
     def _put_mock_file(self):
         conn = boto3.resource("s3", region_name="asia-northeast-1")
-        conn.create_bucket(Bucket=self._bucket)
+        conn.create_bucket(
+            Bucket=self._bucket,
+            CreateBucketConfiguration={'LocationConstraint': self._location}) 
         conn.Bucket(self._bucket).put_object(
             Key=f"{self._prefix}test.tsv.gz", Body="test")
 
@@ -75,7 +78,9 @@ class S3ServiceTestCase(unittest.TestCase):
         s = S3Service(client=self._client, bucket=self._bucket,
                       table=self._table, date=self._date)
         conn = boto3.resource("s3", region_name="asia-northeast-1")
-        conn.create_bucket(Bucket=self._bucket)
+        conn.create_bucket(
+            Bucket=self._bucket,
+            CreateBucketConfiguration={'LocationConstraint': self._location})
 
         result = s.put_object(
             key="mock_table/20191121/test.tsv.gz", body=b"hello")

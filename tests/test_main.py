@@ -56,12 +56,16 @@ class MainTestCase(unittest.TestCase):
         src_bucket = os.environ["src_bucket"]
         key = f'{os.environ["table"]}/{os.environ["date"]}/test.tsv.gz'
         conn = boto3.resource("s3", region_name="asia-northeast-1")
-        conn.create_bucket(Bucket=src_bucket)
+        conn.create_bucket(
+            Bucket=src_bucket,
+            CreateBucketConfiguration={'LocationConstraint': "asia-northeast-1"})
         conn.Bucket(src_bucket).put_object(Key=key, Body="test")
 
         # create dest s3
         dest_bucket = os.environ["dest_bucket"]
-        conn.create_bucket(Bucket=dest_bucket)
+        conn.create_bucket(
+            Bucket=dest_bucket,
+            CreateBucketConfiguration={'LocationConstraint': "asia-northeast-1"})
 
         main()
 
