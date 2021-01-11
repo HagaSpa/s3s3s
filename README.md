@@ -7,13 +7,17 @@ S3 to S3 Sender
 
 `s3://{src_bucket}/{table}/{yyyymmdd}/*` -> `s3://{dest_bucket}/{table}/{yyyymmdd}/*`
 
-
 ## Build
 
 ```
 $ make build
 ```
 
+## Test
+
+```
+$ make test
+```
 
 ## Run
 ### Environment Parameter
@@ -42,30 +46,4 @@ $ docker run \
     <Image ID>:<tag>
 ```
 
-## Test
-### Import moto pytest and dependency...
-```
-$ docker run -it --rm -v `pwd`:/usr/src/app \
-    -w /usr/src/app \
-    python:3.8-alpine \
-    sh -c "apk add build-base libffi-dev && apk add openssl-dev && pip install -t test_libs pytest moto"
-```
-
-## Do pytest
-- Atach to locals `test_lobs` and `tests` to container and Add path to PYTHONPATH.
-
-```
-$ docker run -it --rm -v `pwd`/tests:/usr/src/app/tests \
-    -v `pwd`/test_libs:/usr/src/test_libs \
-    -e PYTHONPATH=/usr/src/test_libs \
-    <Image ID>:<tag> python -m pytest -v -p no:warnings
-
-
-================== test session starts ===========================
-
-tests/test_main.py::MainTestCase::test_create_env_dict PASSED       [100%]
-
-================== 1 passed in 0.96s =============================
-
-```
 
